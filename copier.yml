@@ -34,5 +34,19 @@ python_version:
     - "3.10"
     - "3.9"
 
-# 2. Configuration
+install_dependencies:
+  type: bool
+  help: "Install dependencies for you ?"
+  default: true
+
+# 2. Hooks
+_tasks:
+  - command: "{{ _copier_python }} scripts/setup_dev.py"
+    when: "{{ install_dependencies }}"
+
+  # Cleanup
+  - command: >-
+      {{ _copier_python }} -c "import shutil; shutil.rmtree('scripts', ignore_errors=True)"
+
+# 3. Configuration
 _subdirectory: template
