@@ -9,5 +9,30 @@ project_slug:
   help: Python package import name (e.g., "my_data_processor")
   default: "{{ project_name|lower|replace('-', '_')|replace(' ', '_') }}"
 
+author_name:
+  type: str
+  help: Author Name
+  default: "Your Name"
+
+author_email:
+  type: str
+  help: Author Email
+  default: "you@example.com"
+
+description:
+  type: str
+  help: Short description of your project
+  default: "A new Python project."
+
+python_version:
+  type: str
+  help: Python version of this project
+  default: "3.11"
+  choices:
+    - "3.12"
+    - "3.11"
+    - "3.10"
+    - "3.9"
+
 # 2. Configuration
 _subdirectory: template
