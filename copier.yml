@@ -1,0 +1,7 @@
+# 1. Questions
+project_name:
+  type: str
+  help: What is the name of your project?
+
+# 2. Configuration
+_subdirectory: template
