@@ -48,5 +48,18 @@ _tasks:
   - command: >-
       {{ _copier_python }} -c "import shutil; shutil.rmtree('scripts', ignore_errors=True)"
 
+  # Initial commit
+  - command: >-
+      if [ ! -d .git ]; then
+          echo "✨ Initializing new Git repository..." &&
+          git init &&
+          git add . &&
+          git commit -m "chore: initial commit from template";
+      else
+          echo "🔄 Updating existing Git repository..." &&
+          git add . &&
+          git commit -m "chore: init template" || echo "⚠️ Nothing to commit";
+      fi
+
 # 3. Configuration
 _subdirectory: template
