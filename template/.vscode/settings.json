@@ -1,0 +1,13 @@
+{
+    "python.defaultInterpreterPath": ".venv/bin/python",
+    "notebook.formatOnSave.enabled": true,
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        }
+    }
+}
