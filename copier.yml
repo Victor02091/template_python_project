@@ -1,7 +1,13 @@
 # 1. Questions
 project_name:
   type: str
-  help: What is the name of your project?
+  help: Human-readable name (e.g., "My Data Processor")
+  default: "{{ _copier_conf.dst_path.name | replace('_', ' ') | replace('-', ' ') | title }}"
+
+project_slug:
+  type: str
+  help: Python package import name (e.g., "my_data_processor")
+  default: "{{ project_name|lower|replace('-', '_')|replace(' ', '_') }}"
 
 # 2. Configuration
 _subdirectory: template
