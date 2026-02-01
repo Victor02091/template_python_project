@@ -23,4 +23,14 @@ dev = [
 [tool.ruff]
 line-length = 79
 indent-width = 4
-include = ["**.py"]
+include = ["**.py", "*.ipynb"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "PTH",  # flake8-use-pathlib
+]
