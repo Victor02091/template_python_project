@@ -6,6 +6,13 @@ readme = "README.md"
 requires-python = ">={{ python_version }}"
 dependencies = []
 
+[dependency-groups]
+dev = [
+    "ipykernel>=7.1.0",
+    "pytest>=9.0.2",
+    "ruff>=0.14.10",
+]
+
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
@@ -13,12 +20,9 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["src"]
 
-[dependency-groups]
-dev = [
-    "ipykernel>=7.1.0",
-    "pytest>=9.0.2",
-    "ruff>=0.14.10",
-]
+[project.scripts]
+# command-name = "package.module:function"
+start-app = "{{ project_slug }}.main:main"
 
 [tool.ruff]
 line-length = 79

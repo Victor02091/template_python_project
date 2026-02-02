@@ -35,6 +35,11 @@ python_version:
     - "3.10"
     - "3.9"
 
+add_docker:
+  type: bool
+  default: true
+  help: "Add Dockerfile? (Recommanded)"
+
 install_dependencies:
   type: bool
   help: "Install dependencies for you ?"

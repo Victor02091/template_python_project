@@ -1,0 +1,47 @@
+FROM python:{{python_version}}-slim-bookworm AS base 
+# Update "bookworm" if new stable debian version
+
+# -------------------------
+# Builder
+# -------------------------
+FROM base AS builder
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    UV_LINK_MODE=copy \
+    UV_COMPILE_BYTECODE=1 \
+    UV_PYTHON_DOWNLOADS=never
+
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:0.9.17 /uv /bin/uv
+
+# Build deps
+RUN apt-get update && apt-get install -y --no-install-recommends gcc \
+ && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy only uv.lock and pyproject.toml first (layer caching)
+COPY uv.lock pyproject.toml ./
+
+# Install dependencies using uv
+RUN uv sync --frozen --no-install-project --no-dev
+
+# Project code
+COPY . .
+
+# Build project code
+RUN uv sync --frozen --no-dev
+
+# -------------------------
+# Final runtime image
+# -------------------------
+FROM base
+
+WORKDIR /app
+
+COPY --from=builder /app /app
+
+ENV PATH="/app/.venv/bin:$PATH"
+
+CMD ["start-app"]
