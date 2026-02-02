@@ -27,8 +27,9 @@ description:
 python_version:
   type: str
   help: Python version of this project
-  default: "3.11"
+  default: "3.12"
   choices:
+    - "3.13"
     - "3.12"
     - "3.11"
     - "3.10"
