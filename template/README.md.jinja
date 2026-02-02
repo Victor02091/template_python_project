@@ -1,3 +1,39 @@
 # {{ project_name }}
 
+{{ description }}
 
+## 🛠️ Setup
+
+### 0. Install UV
+
+If not already, install astral uv.
+
+On Linux :
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+On Windows :
+
+```bash
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+More info on [official website](https://docs.astral.sh/uv/getting-started/installation/#__tabbed_1_1).
+
+### 1. Install project and dependencies
+
+Install dependencies and build project :
+
+```bash
+uv sync
+```
+
+## Start app
+
+Run main.py entrypoint with the command:
+
+```bash
+uv run start-app
+```
