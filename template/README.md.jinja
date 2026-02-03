@@ -30,7 +30,7 @@ Install dependencies and build project :
 uv sync
 ```
 
-## Start app
+## 🚀 Start app
 
 Run main.py entrypoint with the command:
 
@@ -38,7 +38,7 @@ Run main.py entrypoint with the command:
 uv run start-app
 ```
 
-## Environment variables
+## ⚙️ Environment variables
 
 Please define and import all environment variables in your code from [settings.py](./src/{{ project_slug }}/core/settings.py) file like so: 
 
@@ -52,11 +52,14 @@ class Settings(BaseSettings):
 
 During local development, use the .env file to set environment variables.
 
-## Tests
+## 🧪 Tests
 
-You can all your tests using the command : 
+Write your tests in the [tests](./tests) folder. Ensure all test files are named starting with `test_` (e.g., `test_main.py`).
+
+To run all tests, use the command:
 
 ```bash
 uv run pytest
 ```
+
 For a visual interface, use the Testing tab in VS Code to run or debug specific tests.
