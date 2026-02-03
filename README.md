@@ -1,7 +1,7 @@
 # Install Copier #
 
 ```
-uv tool install copier
+uv tool install copier --with copier-template-extensions
 ```
 
 # Copy template

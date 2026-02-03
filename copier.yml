@@ -1,3 +1,7 @@
+_jinja_extensions:
+  - copier_template_extensions.TemplateExtensionLoader
+  - extensions/context.py:GitInfoExtension
+
 # 1. Questions
 project_name:
   type: str
@@ -12,12 +16,12 @@ project_slug:
 author_name:
   type: str
   help: Author Name
-  default: "Your Name"
+  default: "{{ git_user_name | default('Your Name', true) }}"
 
 author_email:
   type: str
   help: Author Email
-  default: "you@example.com"
+  default: "{{ git_user_email | default('your@email.com', true) }}"
 
 description:
   type: str
