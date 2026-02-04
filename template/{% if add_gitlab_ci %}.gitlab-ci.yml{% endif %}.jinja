@@ -1,0 +1,33 @@
+image: python:{{ python_version }}-slim
+
+stages:
+  - check
+  - test
+
+variables:
+  # Configure uv cache
+  UV_CACHE_DIR: ".uv-cache"
+
+# Cache the uv download and environment to speed up builds
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - .uv-cache/
+    - .venv/
+
+before_script:
+  # Install uv
+  - pip install uv
+  # Sync dependencies using the lockfile
+  - uv sync --frozen
+
+lint:
+  stage: check
+  script:
+    # Check for linting errors
+    - uv run ruff check src tests
+
+tests:
+  stage: test
+  script:
+    - uv run pytest

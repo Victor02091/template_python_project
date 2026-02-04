@@ -44,6 +44,11 @@ add_docker:
   default: true
   help: "Add Dockerfile? (Recommanded)"
 
+add_gitlab_ci:
+  type: bool
+  default: true
+  help: "Add GitLab CI configuration?"
+
 add_pre_commit:
   type: bool
   default: true
