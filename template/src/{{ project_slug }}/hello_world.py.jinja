@@ -1,6 +1,10 @@
 from {{ project_slug }}.core.settings import settings
 
+
 class HelloWorld:
     @staticmethod
     def print_hello_world() -> None:
-        print(f"Hello world (project : {{ project_name }}, env : {settings.ENVIRONMENT})")
+        print(
+            "Hello world (project : {{ project_name }},"
+            f" env : {settings.ENVIRONMENT})"
+        )
