@@ -30,6 +30,24 @@ Install dependencies and build project :
 uv sync
 ```
 
+{% if add_pre_commit %}
+### 2.🪝 Pre-commit
+
+This project uses pre-commit hooks to ensure code quality before every commit.
+
+1. Install the git hook (only needed once):
+
+```bash
+uv run pre-commit install
+```
+
+2. Run manually on all files (optional):
+
+```bash
+uv run pre-commit run --all-files
+```
+{% endif %}
+
 ## 🚀 Start app
 
 Run main.py entrypoint with the command:
@@ -37,20 +55,6 @@ Run main.py entrypoint with the command:
 ```bash
 uv run start-app
 ```
-
-## ⚙️ Environment variables
-
-Please define and import all environment variables in your code from [settings.py](./src/{{ project_slug }}/core/settings.py) file like so: 
-
-```python
-class Settings(BaseSettings):
-    """Load environment variables as settings."""
-    
-    MY_ENV_VARIABLE_1: str
-    MY_ENV_VARIABLE_2: int = 5
-```
-
-During local development, use the .env file to set environment variables.
 
 ## 🧪 Tests
 
@@ -79,3 +83,17 @@ Format the code, sort imports, and fix linting issues automatically:
 ```bash
 uv run ruff check --fix && uv run ruff format
 ```
+
+## ⚙️ Environment variables
+
+Please define and import all environment variables in your code from [settings.py](./src/{{ project_slug }}/core/settings.py) file like so: 
+
+```python
+class Settings(BaseSettings):
+    """Load environment variables as settings."""
+    
+    MY_ENV_VARIABLE_1: str
+    MY_ENV_VARIABLE_2: int = 5
+```
+
+During local development, use the .env file to set environment variables.

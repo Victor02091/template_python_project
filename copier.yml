@@ -44,10 +44,21 @@ add_docker:
   default: true
   help: "Add Dockerfile? (Recommanded)"
 
+add_pre_commit:
+  type: bool
+  default: true
+  help: "Add pre-commit configuration? (Recommanded)"
+
 install_dependencies:
   type: bool
   help: "Install dependencies for you ?"
   default: true
+
+install_pre_commit_hooks:
+  type: bool
+  help: "Install pre-commit hooks automatically?"
+  default: false
+  when: "{{ install_dependencies and add_pre_commit }}"
 
 # 2. Hooks
 _tasks:
@@ -70,6 +81,10 @@ _tasks:
           git add . &&
           git commit -m "chore: init template" || echo "⚠️ Nothing to commit";
       fi
+
+  # Install pre-commit hooks
+  - command: "uv run pre-commit install"
+    when: "{{ install_pre_commit_hooks | default(false) }}"
 
 # 3. Configuration
 _subdirectory: template
