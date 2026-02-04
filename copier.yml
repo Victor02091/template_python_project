@@ -62,12 +62,10 @@ install_pre_commit_hooks:
 
 # 2. Hooks
 _tasks:
-  - command: "{{ _copier_python }} scripts/setup_dev.py"
-    when: "{{ install_dependencies }}"
 
-  # Cleanup
-  - command: >-
-      {{ _copier_python }} -c "import shutil; shutil.rmtree('scripts', ignore_errors=True)"
+  # Install dependencies
+  - command: "uv sync"
+    when: "{{ install_dependencies }}"
 
   # Initial commit
   - command: >-
