@@ -63,3 +63,19 @@ uv run pytest
 ```
 
 For a visual interface, use the Testing tab in VS Code to run or debug specific tests.
+
+## 🧹 Linting
+
+Check the code for style issues and errors using Ruff:
+
+```bash
+uv run ruff check src
+```
+
+## 🎨 Formatting
+
+Format the code, sort imports, and fix linting issues automatically:
+
+```bash
+uv run ruff check --fix && uv run ruff format
+```
