@@ -1,4 +1,5 @@
 import subprocess
+from pathlib import Path
 
 from jinja2.ext import Extension
 
@@ -14,6 +15,7 @@ class GitInfoExtension(Extension):
         # Add variables to the Jinja context
         environment.globals["git_user_name"] = self._get_git_config("user.name")
         environment.globals["git_user_email"] = self._get_git_config("user.email")
+        environment.globals["current_folder_name"] = Path.cwd().name
 
     def _get_git_config(self, key):
         """Run git config command to get values."""

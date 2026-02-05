@@ -6,7 +6,7 @@ _jinja_extensions:
 project_name:
   type: str
   help: Human-readable name (e.g., "My Data Processor")
-  default: "{{ _copier_conf.dst_path.name | replace('_', ' ') | replace('-', ' ') | title }}"
+  default: "{{ current_folder_name | replace('_', ' ') | replace('-', ' ') | title }}"
 
 project_slug:
   type: str
@@ -44,10 +44,20 @@ add_docker:
   default: true
   help: "Add Dockerfile? (Recommanded)"
 
-add_gitlab_ci:
-  type: bool
-  default: true
-  help: "Add GitLab CI configuration?"
+add_ci:
+    type: bool
+    default: true
+    help: "Configure CI/CD pipeline for Linting and Tests? (Recommanded)"
+
+ci_provider:
+    type: str
+    default: gitlab
+    choices:
+      Github Actions: github
+      GitLab CI: gitlab
+      Bitbucket Pipelines: bitbucket
+    help: "Which CI provider are you using?"
+    when: "{{ add_ci }}"
 
 add_pre_commit:
   type: bool
@@ -74,6 +84,9 @@ _tasks:
 
   # Initial commit
   - command: >-
+      # STOP if we are in a generic Copier temp folder (prevents "Initializing" logs during update)
+      case "$PWD" in */copier.*) exit 0 ;; esac;
+
       if [ ! -d .git ]; then
           echo "✨ Initializing new Git repository..." &&
           git init &&

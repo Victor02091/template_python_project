@@ -1,0 +1,20 @@
+image: python:{{ python_version }}
+
+options:
+  max-time: 20
+
+pipelines:
+  default:
+    - parallel:
+        - step:
+            name: Test
+            script:
+              - pip install uv
+              - uv sync --frozen
+              - uv run pytest --junitxml=test-results/report.xml
+        - step:
+            name: Lint
+            script:
+              - pip install uv
+              - uv sync --frozen
+              - uv run ruff check src tests

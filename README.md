@@ -44,11 +44,21 @@ This template is built with **Copier**. You can install Copier globally using `u
 
 ## 🚀 Usage
 
-To generate a new project from this template, run the following command in your terminal:
+**Prerequisites:**
+1.  Create a new repository (or folder) and open it in your terminal.
+2.  **Ensure the folder is completely empty** (except for the `.git` folder if you cloned a new repository).
 
-    copier copy --trust https://bitbucket.org/faelfassi/python_project_mpdata_template.git $(pwd)
+Run the generation command inside your empty folder:
 
-### Updating an existing project
+    copier copy --trust https://github.com/Victor02091/template_python_project .
+
+### Update values of an existing project
+If you have already generated a project and want to change the current values, like updating python version:
+
+    copier update --vcs-ref=:current: --trust --defaults --data python_version="3.13"
+
+### Update template of an existing project
 If you have already generated a project and want to pull the latest updates from the template:
 
     copier update --trust
+
