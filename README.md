@@ -52,7 +52,13 @@ Run the generation command inside your empty folder:
 
     copier copy --trust https://github.com/Victor02091/template_python_project $(pwd)
 
-### Updating an existing project
+### Update values of an existing project
+If you have already generated a project and want to change the current values, like updating python version:
+
+    copier update --vcs-ref=:current: --trust --defaults --data python_version="3.13"
+
+### Update template of an existing project
 If you have already generated a project and want to pull the latest updates from the template:
 
     copier update --trust
+
