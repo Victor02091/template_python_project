@@ -50,7 +50,7 @@ This template is built with **Copier**. You can install Copier globally using `u
 
 Run the generation command inside your empty folder:
 
-    copier copy --trust https://github.com/Victor02091/template_python_project $(pwd)
+    copier copy --trust https://github.com/Victor02091/template_python_project .
 
 ### Update values of an existing project
 If you have already generated a project and want to change the current values, like updating python version:

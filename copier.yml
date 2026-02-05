@@ -6,7 +6,7 @@ _jinja_extensions:
 project_name:
   type: str
   help: Human-readable name (e.g., "My Data Processor")
-  default: "{{ _copier_conf.dst_path.name | replace('_', ' ') | replace('-', ' ') | title }}"
+  default: "{{ current_folder_name | replace('_', ' ') | replace('-', ' ') | title }}"
 
 project_slug:
   type: str
