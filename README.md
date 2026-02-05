@@ -10,7 +10,7 @@ This template provides a batteries-included setup with modern tooling, strict li
 * **Linter & Formatter:** [Ruff](https://github.com/astral-sh/ruff) (configured for strict imports and formatting).
 * **Pre-commit:** Automatic hooks to ensure code quality before every commit (optional).
 * **Testing:** Pytest with configuration ready.
-* **CI/CD:** GitLab CI pipeline (optional).
+* **CI/CD:** CI pipelines for github, gitlab or bitbucket. (optional).
 * **Containerization:** Dockerfile included (optional).
 * **Editor:** VS Code settings (extensions, tests, and linting) pre-configured.
 
