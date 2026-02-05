@@ -1,0 +1,93 @@
+_jinja_extensions:
+  - copier_template_extensions.TemplateExtensionLoader
+  - extensions/context.py:GitInfoExtension
+
+# 1. Questions
+project_name:
+  type: str
+  help: Human-readable name (e.g., "My Data Processor")
+  default: "{{ _copier_conf.dst_path.name | replace('_', ' ') | replace('-', ' ') | title }}"
+
+project_slug:
+  type: str
+  help: Python package import name (e.g., "my_data_processor")
+  default: "{{ project_name|lower|replace('-', '_')|replace(' ', '_') }}"
+
+author_name:
+  type: str
+  help: Author Name
+  default: "{{ git_user_name | default('Your Name', true) }}"
+
+author_email:
+  type: str
+  help: Author Email
+  default: "{{ git_user_email | default('your@email.com', true) }}"
+
+description:
+  type: str
+  help: Short description of your project
+  default: "A new Python project."
+
+python_version:
+  type: str
+  help: Python version of this project
+  default: "3.12"
+  choices:
+    - "3.13"
+    - "3.12"
+    - "3.11"
+    - "3.10"
+    - "3.9"
+
+add_docker:
+  type: bool
+  default: true
+  help: "Add Dockerfile? (Recommanded)"
+
+add_gitlab_ci:
+  type: bool
+  default: true
+  help: "Add GitLab CI configuration?"
+
+add_pre_commit:
+  type: bool
+  default: true
+  help: "Add pre-commit configuration? (Recommanded)"
+
+install_dependencies:
+  type: bool
+  help: "Install dependencies for you ?"
+  default: true
+
+install_pre_commit_hooks:
+  type: bool
+  help: "Install pre-commit hooks automatically?"
+  default: false
+  when: "{{ install_dependencies and add_pre_commit }}"
+
+# 2. Hooks
+_tasks:
+
+  # Install dependencies
+  - command: "uv sync"
+    when: "{{ install_dependencies }}"
+
+  # Initial commit
+  - command: >-
+      if [ ! -d .git ]; then
+          echo "✨ Initializing new Git repository..." &&
+          git init &&
+          git add . &&
+          git commit -m "chore: initial commit from template";
+      else
+          echo "🔄 Updating existing Git repository..." &&
+          git add . &&
+          git commit -m "chore: init template" || echo "⚠️ Nothing to commit";
+      fi
+
+  # Install pre-commit hooks
+  - command: "uv run pre-commit install"
+    when: "{{ install_pre_commit_hooks | default(false) }}"
+
+# 3. Configuration
+_subdirectory: template
