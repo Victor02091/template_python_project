@@ -85,7 +85,7 @@ _tasks:
   # Initial commit
   - command: >-
       # STOP if we are in a generic Copier temp folder (prevents "Initializing" logs during update)
-      case "$PWD" in */copier.*) exit 0 ;; esac;
+      echo "$PWD" | grep -q "copier\." && exit 0;
 
       if [ ! -d .git ]; then
           echo "✨ Initializing new Git repository..." &&
