@@ -30,8 +30,26 @@ Install dependencies and build project :
 uv sync
 ```
 
+### 2. Manage packages
+
+This project uses the modern `uv` project workflow.
+
+**Add a package:**
+```bash
+uv add <package_name>
+# Example: uv add pandas
+```
+
+**Remove a package:**
+```bash
+uv remove <package_name>
+```
+
+> **⚠️ Important:** Do **not** use legacy commands like `uv pip install` or manually create environments with `uv venv`.
+> The `uv add/remove` commands automatically update `pyproject.toml`, the `uv.lock` file, and your virtual environment in sync.
+
 {% if add_pre_commit %}
-### 2.🪝 Pre-commit
+### 3.🪝 Pre-commit
 
 This project uses pre-commit hooks to ensure code quality before every commit.
 
