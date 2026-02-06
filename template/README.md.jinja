@@ -92,8 +92,8 @@ Please define and import all environment variables in your code from [config.py]
 class Settings(BaseSettings):
     """Load environment variables as settings."""
     
-    MY_ENV_VARIABLE_1: str
-    MY_ENV_VARIABLE_2: int = 5
+    my_env_variable_1: str # MY_ENV_VARIABLE_1
+    my_env_variable_2: int = 5 # MY_ENV_VARIABLE_2
 ```
 
 During local development, use the .env file to set environment variables.
