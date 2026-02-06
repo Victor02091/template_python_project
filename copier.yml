@@ -83,21 +83,22 @@ _tasks:
     when: "{{ install_dependencies }}"
 
   # Initial commit
-  - command: >-
+  - command: |
       # 1. Ensure a git repo exists (if not, create one)
       if [ ! -d .git ]; then
-          echo "✨ Initializing new Git repository..." && git init;
-      fi;
+          echo "✨ Initializing new Git repository..."
+          git init
+      fi
 
       # 2. Check if this is the first time the template is applied
       # We do this by checking if the answers file is already tracked by git.
       # If 'git ls-files' fails to find it in the index, it's a fresh install.
       if ! git ls-files .copier-answers.yml --error-unmatch > /dev/null 2>&1; then
-          echo "🚀 First template application detected. Committing..." &&
-          git add . &&
-          git commit -m "chore: initial commit from template";
+          echo "🚀 First template application detected. Committing..."
+          git add .
+          git commit -m "chore: initial commit from template"
       else
-          echo "🔄 Template update detected. Skipping git commit.";
+          echo "🔄 Template update detected. Skipping git commit."
       fi
 
   # Install pre-commit hooks
