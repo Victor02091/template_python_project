@@ -84,18 +84,20 @@ _tasks:
 
   # Initial commit
   - command: >-
-      # STOP if we are in a generic Copier temp folder (prevents "Initializing" logs during update)
-      echo "$PWD" | grep -q "copier\." && exit 0;
-
+      # 1. Ensure a git repo exists (if not, create one)
       if [ ! -d .git ]; then
-          echo "✨ Initializing new Git repository..." &&
-          git init &&
+          echo "✨ Initializing new Git repository..." && git init;
+      fi;
+
+      # 2. Check if this is the first time the template is applied
+      # We do this by checking if the answers file is already tracked by git.
+      # If 'git ls-files' fails to find it in the index, it's a fresh install.
+      if ! git ls-files .copier-answers.yml --error-unmatch > /dev/null 2>&1; then
+          echo "🚀 First template application detected. Committing..." &&
           git add . &&
           git commit -m "chore: initial commit from template";
       else
-          echo "🔄 Updating existing Git repository..." &&
-          git add . &&
-          git commit -m "chore: init template" || echo "⚠️ Nothing to commit";
+          echo "🔄 Template update detected. Skipping git commit.";
       fi
 
   # Install pre-commit hooks
