@@ -16,31 +16,57 @@
    ]
   },
   {
+   "cell_type": "markdown",
+   "id": "d44084ab",
+   "metadata": {},
+   "source": [
+    "### Imports"
+   ]
+  },
+  {
    "cell_type": "code",
    "execution_count": null,
    "id": "989b1669",
-   "metadata": {
-    "vscode": {
-     "languageId": "plaintext"
-    }
-   },
+   "metadata": {},
    "outputs": [],
    "source": [
-    "from {{ project_slug }}.hello_world import HelloWorld"
+    "# Import root to avoid relative imports in the notebook\n",
+    "from {{ project_slug }}.core.constants import (\n",
+    "    PROJECT_ROOT,\n",
+    ")\n",
+    "\n",
+    "# Import functions or classes\n",
+    "from {{ project_slug }}.hello_world import (\n",
+    "    HelloWorld,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "33a8032f",
+   "metadata": {},
+   "source": [
+    "### Code"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": null,
    "id": "1d64c65f",
-   "metadata": {
-    "vscode": {
-     "languageId": "plaintext"
-    }
-   },
+   "metadata": {},
    "outputs": [],
    "source": [
     "HelloWorld.print_hello_world()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "063762cb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(f\"Project root path: {PROJECT_ROOT}\")"
    ]
   }
  ],
