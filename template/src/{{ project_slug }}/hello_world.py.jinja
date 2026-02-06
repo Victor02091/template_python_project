@@ -1,10 +1,16 @@
-from {{ project_slug }}.core.settings import settings
+import logging
+
+from {{ project_slug }}.core.config import settings
+
+logger = logging.getLogger(__name__)
 
 
 class HelloWorld:
     @staticmethod
     def print_hello_world() -> None:
+        logger.info("Hello world function started")
         print(
             "Hello world (project : {{ project_name }},"
-            f" env : {settings.ENVIRONMENT})"
+            f" env : {settings.environment})"
         )
+        logger.info("Hello world function ended")

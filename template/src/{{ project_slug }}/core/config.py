@@ -8,7 +8,14 @@ class Settings(BaseSettings):
     """Load environment variables as settings."""
 
     # Define environment variables of the project here
-    ENVIRONMENT: Literal["local", "dev", "preprod", "prod"] = "local"
+
+    # ENVIRONMENT
+    environment: Literal["local", "dev", "preprod", "prod"] = "local"
+
+    # LOG_LEVEL
+    log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = (
+        "INFO"
+    )
 
     # Load dotenv
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
@@ -16,7 +23,7 @@ class Settings(BaseSettings):
 
 # Avoid loading at every import
 @lru_cache
-def get_settings():
+def get_settings() -> Settings:
     return Settings()
 
 

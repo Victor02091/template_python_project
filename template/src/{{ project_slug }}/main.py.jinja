@@ -1,7 +1,18 @@
+import logging
+
+from {{ project_slug }}.core.config import settings
+from {{ project_slug }}.core.logging import setup_logging
 from {{ project_slug }}.hello_world import HelloWorld
+
+logger = logging.getLogger(__name__)
 
 
 def main() -> None:
+    # Setup logging
+    setup_logging(log_level=settings.log_level)
+
+    # Start the application
+    logger.info("Application started")
     HelloWorld.print_hello_world()
 
 
