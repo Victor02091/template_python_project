@@ -14,6 +14,14 @@ This template provides a batteries-included setup with modern tooling, strict li
 * **Containerization:** Dockerfile included (optional).
 * **Editor:** VS Code settings (extensions, tests, and linting) pre-configured.
 
+## 📂 Project Structure
+
+The template generates a clean, production-ready directory layout:
+
+<p align="left">
+  <img src="images/repo_structure.png" alt="Project Structure" width="200">
+</p>
+
 ## 🛠️ Requirements
 
 You **do not** need to install Python manually. The package manager `uv` handles Python versions automatically.
