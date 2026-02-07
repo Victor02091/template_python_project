@@ -44,6 +44,25 @@ add_docker:
   default: true
   help: "Add Dockerfile? (Recommanded)"
 
+add_type_checking:
+  type: bool
+  default: true
+  help: "Add static type checking configuration? (Recommanded)"
+
+type_checker:
+  type: str
+  default: mypy
+  choices:
+      Mypy (Standard): mypy
+      Astral Ty (Modern, Beta): ty
+  help: "Which type checker do you want to use?"
+  when: "{{ add_type_checking }}"
+
+add_pre_commit:
+  type: bool
+  default: true
+  help: "Add pre-commit configuration? (Recommanded)"
+
 add_ci:
     type: bool
     default: true
@@ -58,11 +77,6 @@ ci_provider:
       Bitbucket Pipelines: bitbucket
     help: "Which CI provider are you using?"
     when: "{{ add_ci }}"
-
-add_pre_commit:
-  type: bool
-  default: true
-  help: "Add pre-commit configuration? (Recommanded)"
 
 install_dependencies:
   type: bool
