@@ -18,3 +18,11 @@ pipelines:
               - pip install uv
               - uv sync --frozen
               - uv run ruff check src tests
+        {% if add_type_checking -%}
+        - step:
+            name: Type Check
+            script:
+              - pip install uv
+              - uv sync --frozen
+              - uv run {{ "mypy" if type_checker == "mypy" else "ty check" }}
+        {% endif -%}

@@ -30,8 +30,26 @@ Install dependencies and build project :
 uv sync
 ```
 
-{% if add_pre_commit %}
-### 2.🪝 Pre-commit
+### 2. Manage packages
+
+This project uses the modern `uv` project workflow.
+
+**Add a package:**
+```bash
+uv add <package_name>
+# Examples: uv add pandas / uv add pytest --dev
+```
+
+**Remove a package:**
+```bash
+uv remove <package_name>
+```
+
+> **⚠️ Important:** Do **not** use legacy commands like `uv pip install` or manually create environments with `uv venv`.
+> The `uv add/remove` commands automatically update `pyproject.toml`, the `uv.lock` file, and your virtual environment in sync.
+
+{% if add_pre_commit -%}
+### 3.🪝 Pre-commit
 
 This project uses pre-commit hooks to ensure code quality before every commit.
 
@@ -46,8 +64,8 @@ uv run pre-commit install
 ```bash
 uv run pre-commit run --all-files
 ```
-{% endif %}
 
+{% endif -%}
 ## 🚀 Start app
 
 Run main.py entrypoint with the command:
@@ -84,6 +102,16 @@ Format the code, sort imports, and fix linting issues automatically:
 uv run ruff check --fix && uv run ruff format
 ```
 
+{% if add_type_checking -%}
+## 🛡️ Type Checking
+
+Run static type checking using {{ "Mypy" if type_checker == "mypy" else "Astral Ty" }}:
+
+```bash
+uv run {{ "mypy" if type_checker == "mypy" else "ty check" }}
+```
+
+{% endif -%}
 ## ⚙️ Environment variables
 
 Please define and import all environment variables in your code from [config.py](./src/{{ project_slug }}/core/config.py) file like so: 
@@ -98,7 +126,7 @@ class Settings(BaseSettings):
 
 During local development, use the .env file to set environment variables.
 
-{% if add_docker %}
+{% if add_docker -%}
 ## 🐳 Docker
 
 Build the Docker image:
@@ -112,4 +140,5 @@ Run the container:
 ```bash
 docker run -it --rm {{ project_slug }}
 ```
-{% endif %}
+
+{% endif -%}

@@ -27,6 +27,14 @@ lint:
     # Check for linting errors
     - uv run ruff check src tests
 
+{% if add_type_checking -%}
+type-check:
+  stage: check
+  script:
+    # Run static type checker
+    - uv run {{ "mypy" if type_checker == "mypy" else "ty check" }}
+
+{% endif -%}
 tests:
   stage: test
   script:

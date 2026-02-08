@@ -24,6 +24,11 @@ jobs:
         run: |
           # Check for code errors
           uv run ruff check src tests
+      
+      {% if add_type_checking -%}
+      - name: Type Checking ({{ "Mypy" if type_checker == "mypy" else "Astral Ty" }})
+        run: uv run {{ "mypy" if type_checker == "mypy" else "ty check" }}
 
+      {% endif -%}
       - name: Testing (Pytest)
         run: uv run pytest

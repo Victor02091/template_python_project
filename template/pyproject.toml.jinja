@@ -14,11 +14,18 @@ dependencies = [
 [dependency-groups]
 dev = [
     "ipykernel>=7.1.0",
+    {%- if add_type_checking and type_checker == "mypy" %}
+    "mypy>=1.19.1",
+    {%- endif %}
     {%- if add_pre_commit %}
     "pre-commit>=4.5.1",
     {%- endif %}
     "pytest>=9.0.2",
+    "pytest-env>=1.2.0",
     "ruff>=0.14.10",
+    {%- if add_type_checking and type_checker == "ty" %}
+    "ty>=0.0.15",
+    {%- endif %}
 ]
 
 [build-system]
@@ -52,6 +59,29 @@ select = [
 [tool.ruff.lint.per-file-ignores]
 "tests/**.py" = ["ANN", "ARG"]
 
+{% if add_type_checking and type_checker == "mypy" -%}
+[tool.mypy]
+files = ["src"]
+exclude = ["tests/"]
+python_version = "{{ python_version }}"
+check_untyped_defs = true
+ignore_missing_imports = true
+no_implicit_optional = true
+# Note : Ruff already enforce type hinting
+
+{% endif -%}
+{% if add_type_checking and type_checker == "ty" -%}
+[tool.ty.environment]
+python-version = "{{ python_version }}"
+
+[tool.ty.src]
+include = ["src"]
+
+{% endif -%}
 [tool.pytest.ini_options]
 addopts = "-v"
 testpaths = ["tests"]
+env = [
+    "ENVIRONMENT=test",
+    "LOG_LEVEL=INFO",
+]

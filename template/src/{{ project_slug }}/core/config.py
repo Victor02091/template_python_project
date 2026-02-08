@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     # Define environment variables of the project here
 
     # ENVIRONMENT
-    environment: Literal["local", "dev", "preprod", "prod"] = "local"
+    environment: Literal["local", "test", "dev", "preprod", "prod"] = "local"
 
     # LOG_LEVEL
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = (
