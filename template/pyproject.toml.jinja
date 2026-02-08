@@ -23,6 +23,9 @@ dev = [
     "pytest>=9.0.2",
     "pytest-env>=1.2.0",
     "ruff>=0.14.10",
+    {%- if add_type_checking and type_checker == "ty" %}
+    "ty>=0.0.15",
+    {%- endif %}
 ]
 
 [build-system]
@@ -65,6 +68,14 @@ check_untyped_defs = true
 ignore_missing_imports = true
 no_implicit_optional = true
 # Note : Ruff already enforce type hinting
+
+{% endif -%}
+{% if add_type_checking and type_checker == "ty" -%}
+[tool.ty.environment]
+python-version = "{{ python_version }}"
+
+[tool.ty.src]
+include = ["src"]
 
 {% endif -%}
 [tool.pytest.ini_options]

@@ -8,6 +8,7 @@ This template provides a batteries-included setup with modern tooling, strict li
 
 * **Package Manager:** [uv](https://github.com/astral-sh/uv) (blazing fast replacement for pip/poetry).
 * **Linter & Formatter:** [Ruff](https://github.com/astral-sh/ruff) (configured for strict imports and formatting).
+* **Type Checking:** Standard Mypy or new beta of astral [ty](https://github.com/astral-sh/ty) (optional).
 * **Pre-commit:** Automatic hooks to ensure code quality before every commit (optional).
 * **Testing:** Pytest with configuration ready.
 * **CI/CD:** CI pipelines for github, gitlab or bitbucket (optional).
