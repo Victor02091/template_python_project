@@ -78,6 +78,11 @@ ci_provider:
     help: "Which CI provider are you using?"
     when: "{{ add_ci }}"
 
+add_docs:
+  type: bool
+  default: true
+  help: "Initialize MkDocs documentation setup? (Recommanded)"
+
 install_dependencies:
   type: bool
   help: "Install dependencies for you ?"

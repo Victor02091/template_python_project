@@ -1,0 +1,74 @@
+site_name: {{ project_name }}
+site_url: https://example.com/
+
+#repo_url: https://github.com/dktunited/example
+#repo_name: {{ project_slug }}
+
+theme:
+  name: material
+  features:
+    - navigation.tabs           # Top-level tabs
+    - navigation.sections       # Collapsible sections
+    - navigation.expand         # Open folders by default
+    - toc.integrate             # Table of contents on the left
+    - content.code.copy         # Copy button on code blocks
+  palette:
+    # Light Mode
+    - scheme: default
+      primary: teal
+      accent: purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark Mode
+    - scheme: slate
+      primary: teal
+      accent: lime
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+  - gen-files:
+      scripts:
+        - docs/gen_ref_pages.py
+  - literate-nav:
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: google
+            show_source: true           # The clickable </> button
+            show_root_heading: true     # Show "class MyClass" as a header
+            show_members: true          # List all methods automatically
+            show_category_heading: true # Group "Attributes" vs "Methods"
+            separate_signature: true    # Clean look for arguments
+            merge_init_into_class: true # Show __init__ args in class header
+  - mkdocs-jupyter:
+      include_source: true     # Show the code cells
+      ignore_h1_titles: true   # Use the filename or metadata title
+      execute: false           # Set to true if you want to RUN the notebook during build
+
+markdown_extensions:
+  - md_in_html
+  - admonition
+  - attr_list
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+exclude_docs: |
+  gen_ref_pages.py
+  *.pyc
+  __pycache__
+
+nav:
+  - Home: index.md
+  - README: readme.md
+  - Reference: reference/
+  - Notebooks: notebooks/
