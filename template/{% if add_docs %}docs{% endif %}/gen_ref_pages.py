@@ -71,7 +71,8 @@ def build_reference_docs() -> None:
     # This prevents the "Reference" link in the menu from 404ing
     with mkdocs_gen_files.open("reference/index.md", "w") as fd:
         fd.write(
-            "# Code Reference\n\nSelect a module from the sidebar" " to view details."
+            "# Code Reference\n\nSelect a module "
+            "from the sidebar to view details."
         )
     nav["Overview"] = "index.md"
 
