@@ -71,8 +71,7 @@ def build_reference_docs() -> None:
     # This prevents the "Reference" link in the menu from 404ing
     with mkdocs_gen_files.open("reference/index.md", "w") as fd:
         fd.write(
-            "# Code Reference\n\nSelect a module from the sidebar"
-            " to view details."
+            "# Code Reference\n\nSelect a module from the sidebar" " to view details."
         )
     nav["Overview"] = "index.md"
 
@@ -83,22 +82,40 @@ def build_reference_docs() -> None:
 
 
 def copy_notebooks() -> None:
-    """Copies all .ipynb files from notebooks/ to docs/notebooks/."""
+    """
+    Copies all .ipynb files from notebooks/ to docs/notebooks/
+    and generates an index.md listing them.
+    """
     if not NOTEBOOKS_DIR.exists():
         return
 
-    for nb_path in NOTEBOOKS_DIR.rglob("*.ipynb"):
-        # Calculate relative path to keep folder structure
-        # (e.g. notebooks/tutorial/1.ipynb)
+    # We will collect links here to build the index page
+    index_content = [
+        "# Notebooks",
+        "",
+        "Here are the available Jupyter notebooks:",
+        "",
+    ]
+
+    # Iterate over notebooks (sorted for consistent order)
+    for nb_path in sorted(NOTEBOOKS_DIR.rglob("*.ipynb")):
         rel_path = nb_path.relative_to(NOTEBOOKS_DIR)
         dest_path = Path("notebooks") / rel_path
 
-        # Read binary content
+        # 1. Copy the notebook content
         content = nb_path.read_bytes()
-
-        # Write to virtual docs
         with mkdocs_gen_files.open(dest_path, "wb") as fd:
             fd.write(content)
+
+        # 2. Add a link to the index content
+        #    Format: - [Filename without extension](filename.ipynb)
+        name = nb_path.stem.replace("_", " ").replace("-", " ").title()
+        link = rel_path.as_posix()  # Ensure forward slashes
+        index_content.append(f"- [{name}]({link})")
+
+    # 3. Create the notebooks/index.md file
+    with mkdocs_gen_files.open("notebooks/index.md", "w") as fd:
+        fd.write("\n".join(index_content))
 
 
 def main() -> None:
