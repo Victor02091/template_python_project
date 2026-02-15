@@ -24,6 +24,7 @@ class Settings(BaseSettings):
 # Avoid loading at every import
 @lru_cache
 def get_settings() -> Settings:
+    """Return settings"""
     return Settings()
 
 

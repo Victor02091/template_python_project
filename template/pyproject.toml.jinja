@@ -65,6 +65,12 @@ select = [
     "PTH", # flake8-use-pathlib
     "ANN", # flake8-annotations
     "ARG", # flake8-unused-arguments
+    {%- if add_docs %}
+    "D101", # Missing docstring in public class
+    "D102", # Missing docstring in public method
+    "D103", # Missing docstring in public function
+    "D417", # Missing argument descriptions in the docstring
+    {%- endif %}
 ]
 
 [tool.ruff.lint.per-file-ignores]
