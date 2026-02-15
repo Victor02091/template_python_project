@@ -1,9 +1,15 @@
 site_name: {{ project_name }}
 site_url: https://example.com/
 
+{% if git_remote_url -%}
+repo_url: {{ git_remote_url }}
+repo_name: {{ git_repo_name }}
+
+{% else -%}
 #repo_url: https://github.com/dktunited/example
 #repo_name: {{ project_slug }}
 
+{% endif -%}
 theme:
   name: material
   features:
