@@ -13,7 +13,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "ipykernel>=7.1.0",
+    "ipykernel>=6.31.0",
     {%- if add_type_checking and type_checker == "mypy" %}
     "mypy>=1.19.1",
     {%- endif %}
@@ -27,6 +27,17 @@ dev = [
     "ty>=0.0.15",
     {%- endif %}
 ]
+{%- if add_docs %}
+docs = [
+    "ipykernel<7.0.0",
+    "mkdocs>=1.6.1",
+    "mkdocs-gen-files>=0.6.0",
+    "mkdocs-jupyter>=0.25.0",
+    "mkdocs-literate-nav>=0.6.2",
+    "mkdocs-material>=9.7.1",
+    "mkdocstrings[python]>=1.0.3",
+]
+{%- endif %}
 
 [build-system]
 requires = ["setuptools", "wheel"]
@@ -54,6 +65,12 @@ select = [
     "PTH", # flake8-use-pathlib
     "ANN", # flake8-annotations
     "ARG", # flake8-unused-arguments
+    {%- if add_docs %}
+    "D101", # Missing docstring in public class
+    "D102", # Missing docstring in public method
+    "D103", # Missing docstring in public function
+    "D417", # Missing argument descriptions in the docstring
+    {%- endif %}
 ]
 
 [tool.ruff.lint.per-file-ignores]
