@@ -78,6 +78,7 @@ select = [
 
 {% if add_type_checking and type_checker == "mypy" -%}
 [tool.mypy]
+plugins = ["pydantic.mypy"]
 files = ["src"]
 exclude = ["tests/"]
 python_version = "{{ python_version }}"
