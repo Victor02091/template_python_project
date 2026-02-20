@@ -21,9 +21,7 @@ jobs:
         run: uv sync --frozen
 
       - name: Linting (Ruff)
-        run: |
-          # Check for code errors
-          uv run ruff check src tests
+        run: uv run ruff check src tests
       
       {% if add_type_checking -%}
       - name: Type Checking ({{ "Mypy" if type_checker == "mypy" else "Astral Ty" }})
