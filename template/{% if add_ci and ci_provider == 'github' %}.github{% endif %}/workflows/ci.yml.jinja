@@ -2,11 +2,19 @@ name: CI
 
 on:
   push:
+  pull_request:
 
 jobs:
   test:
     name: Run Tests & Lint
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      issues: read
+      checks: write
+      pull-requests: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,9 +29,7 @@ jobs:
         run: uv sync --frozen
 
       - name: Linting (Ruff)
-        run: |
-          # Check for code errors
-          uv run ruff check src tests
+        run: uv run ruff check src tests
       
       {% if add_type_checking -%}
       - name: Type Checking ({{ "Mypy" if type_checker == "mypy" else "Astral Ty" }})
@@ -31,4 +37,10 @@ jobs:
 
       {% endif -%}
       - name: Testing (Pytest)
-        run: uv run pytest
+        run: uv run pytest --junitxml=pytest-results.xml
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: "pytest-results.xml"
