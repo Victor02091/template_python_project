@@ -1,0 +1,71 @@
+name: Test Copier Template
+
+on:
+  push:
+  pull_request:
+  # Schedule a run once a month to catch upstream dependency breaks
+  schedule:
+    - cron: '0 0 1 * *'
+
+jobs:
+  test-generation-and-build:
+    name: Generate and Test Project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout template repository
+        uses: actions/checkout@v4
+
+      - name: Set up Git config
+        run: |
+          # Required because the template's _tasks run 'git commit'
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install Copier
+        run: uv tool install copier --with copier-template-extensions
+
+      - name: Generate project from template
+        run: |
+          # --trust allows Copier to run your post-generation _tasks
+          # --defaults accepts all default answers automatically
+          copier copy --trust --defaults . generated-project
+
+      - name: Lint Code (Ruff)
+        working-directory: generated-project
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+
+      - name: Type Check (Mypy)
+        working-directory: generated-project
+        run: |
+          uv run mypy
+
+      - name: Run Tests (Pytest)
+        working-directory: generated-project
+        run: |
+          # Runs dummy test included in the template's tests/ folder
+          uv run pytest
+
+      - name: Test Docker Build
+        working-directory: generated-project
+        run: |
+          # Build the Docker image directly without docker-compose
+          docker build -t generated-app:test .
+
+      - name: Test Docker Run (CLI Execution)
+        working-directory: generated-project
+        run: |
+          # Run the container to ensure the CMD ["start-app"] executes without crashing
+          docker run --rm generated-app:test
