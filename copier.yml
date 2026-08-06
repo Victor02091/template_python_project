@@ -131,6 +131,11 @@ _tasks:
   # Install dependencies
   - command: "uv sync"
     when: "{{ install_dependencies }}"
+  # Format and Lint Code
+  - command: "uv run ruff check --fix --exit-zero ."
+    when: "{{ install_dependencies }}"
+  - command: "uv run ruff format ."
+    when: "{{ install_dependencies }}"
 
   # Initial commit
   - command: |
