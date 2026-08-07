@@ -6,27 +6,59 @@ _jinja_extensions:
 project_name:
   type: str
   help: Human-readable name (e.g., "My Data Processor")
-  default: "{{ current_folder_name | replace('_', ' ') | replace('-', ' ') | title }}"
+  default: "{{ current_folder_name | default('My Project', true) | replace('_', ' ') | replace('-', ' ') | title }}"
+  validator: >-
+    {%- if not project_name -%}
+    Error: Project name cannot be empty.
+    {%- elif '"' in project_name or '\n' in project_name -%}
+    Error: Project name cannot contain double quotes or newlines.
+    {%- endif -%}
 
 project_slug:
   type: str
   help: Python package import name (e.g., "my_data_processor")
-  default: "{{ project_name|lower|replace('-', '_')|replace(' ', '_') }}"
+  default: "{{ project_name | lower | replace('-', '_') | replace(' ', '_') }}"
+  validator: >-
+    {%- if not project_slug -%}
+    Error: The slug cannot be empty.
+    {%- elif not project_slug.isidentifier() -%}
+    Error: The slug must be a valid Python identifier (no dashes, spaces, or starting with a number).
+    {%- elif project_slug != project_slug|lower -%}
+    Error: The slug must be completely lowercase.
+    {%- endif -%}
 
 author_name:
   type: str
   help: Author Name
   default: "{{ git_user_name | default('Your Name', true) }}"
+  validator: >-
+    {%- if not author_name -%}
+    Error: Author name cannot be empty.
+    {%- elif '"' in author_name or '\n' in author_name -%}
+    Error: Author name cannot contain double quotes or newlines.
+    {%- endif -%}
 
 author_email:
   type: str
   help: Author Email
-  default: "{{ git_user_email | default('your@email.com', true) }}"
+  default: >-
+    {%- set email = git_user_email | default('your@email.com', true) -%}
+    {{- email if '@' in email and '.' in email else 'your@email.com' -}}
+  validator: >-
+    {%- if "@" not in author_email or "." not in author_email -%}
+    Error: Please enter a valid email address (must contain @ and .).
+    {%- elif '"' in author_email or ' ' in author_email or '\n' in author_email -%}
+    Error: Email cannot contain spaces, quotes, or newlines.
+    {%- endif -%}
 
 description:
   type: str
   help: Short description of your project
   default: "A new Python project."
+  validator: >-
+    {%- if '"' in description or '\n' in description -%}
+    Error: Description cannot contain double quotes or newlines (use single quotes instead).
+    {%- endif -%}
 
 python_version:
   type: str
@@ -42,12 +74,12 @@ python_version:
 add_docker:
   type: bool
   default: true
-  help: "Add Dockerfile? (Recommanded)"
+  help: "Add Dockerfile? (Recommended)"
 
 add_type_checking:
   type: bool
   default: true
-  help: "Add static type checking configuration? (Recommanded)"
+  help: "Add static type checking configuration? (Recommended)"
 
 type_checker:
   type: str
@@ -61,31 +93,31 @@ type_checker:
 add_pre_commit:
   type: bool
   default: true
-  help: "Add pre-commit configuration? (Recommanded)"
+  help: "Add pre-commit configuration? (Recommended)"
 
 add_ci:
-    type: bool
-    default: true
-    help: "Configure CI/CD pipeline for Linting and Tests? (Recommanded)"
+  type: bool
+  default: true
+  help: "Configure CI/CD pipeline for Linting and Tests? (Recommended)"
 
 ci_provider:
-    type: str
-    default: gitlab
-    choices:
+  type: str
+  default: gitlab
+  choices:
       Github Actions: github
       GitLab CI: gitlab
       Bitbucket Pipelines: bitbucket
-    help: "Which CI provider are you using?"
-    when: "{{ add_ci }}"
+  help: "Which CI provider are you using?"
+  when: "{{ add_ci }}"
 
 add_docs:
   type: bool
   default: true
-  help: "Initialize MkDocs documentation setup? (Recommanded)"
+  help: "Initialize MkDocs documentation setup? (Recommended)"
 
 install_dependencies:
   type: bool
-  help: "Install dependencies for you ?"
+  help: "Install dependencies for you?"
   default: true
 
 install_pre_commit_hooks:
@@ -96,33 +128,23 @@ install_pre_commit_hooks:
 
 # 2. Hooks
 _tasks:
-
   # Install dependencies
-  - command: "uv sync"
+  - command: "uv sync --quiet"
     when: "{{ install_dependencies }}"
+  # Format and Lint Code
+  - command: "uv run ruff check --fix --quiet --exit-zero ."
+    when: "{{ install_dependencies }}"
+  - command: "uv run ruff format --quiet ."
+    when: "{{ install_dependencies }}"
+  # If dependencies are not installed
+  # Uses 'uv tool run' (uvx) to download Ruff into a temporary global cache.
+  - command: "uv tool run ruff check --fix --quiet --exit-zero ."
+    when: "{{ not install_dependencies }}"
+  - command: "uv tool run ruff format --quiet ."
+    when: "{{ not install_dependencies }}"
 
-  # Initial commit
-  - command: |
-      # 1. Ensure a git repo exists (if not, create one)
-      if [ ! -d .git ]; then
-          echo "✨ Initializing new Git repository..."
-          git init
-      fi
-
-      # 2. Check if this is the first time the template is applied
-      # We do this by checking if the answers file is already tracked by git.
-      # If 'git ls-files' fails to find it in the index, it's a fresh install.
-      if ! git ls-files .copier-answers.yml --error-unmatch > /dev/null 2>&1; then
-          echo "🚀 First template application detected. Committing..."
-          git add .
-          git commit --no-verify -m "chore: initial commit from template"
-      else
-          echo "🔄 Template update detected. Skipping git commit."
-      fi
-
-  # Install pre-commit hooks
-  - command: "uv run pre-commit install"
-    when: "{{ install_pre_commit_hooks | default(false) }}"
+  # Final Setup (Git, Pre-commit, Message, Self-Cleanup)
+  - command: "uv run --quiet .setup.py"
 
 # 3. Configuration
 _subdirectory: template

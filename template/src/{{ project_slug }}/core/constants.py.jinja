@@ -1,0 +1,13 @@
+import importlib.resources
+from pathlib import Path
+from typing import Final
+
+# -----------------------------------------------------------------------------
+# PKG_ROOT: Use for library logic and bundled assets (safe for production).
+# PROJECT_ROOT: Use for local dev tooling and tests (breaks in production).
+# -----------------------------------------------------------------------------
+
+PKG_ROOT: Final = importlib.resources.files("{{ project_slug }}")
+PROJECT_ROOT: Final[Path] = Path(__file__).resolve().parents[3]
+
+# Define constants of the project here
