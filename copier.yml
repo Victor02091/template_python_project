@@ -132,10 +132,16 @@ _tasks:
   - command: "uv sync"
     when: "{{ install_dependencies }}"
   # Format and Lint Code
-  - command: "uv run ruff check --fix --exit-zero ."
+  - command: "uv run ruff check --fix --quiet --exit-zero ."
     when: "{{ install_dependencies }}"
-  - command: "uv run ruff format ."
+  - command: "uv run ruff format --quiet ."
     when: "{{ install_dependencies }}"
+  # If dependencies are not installed
+  # Uses 'uv tool run' (uvx) to download Ruff into a temporary global cache.
+  - command: "uv tool run ruff check --fix --quiet --exit-zero ."
+    when: "{{ not install_dependencies }}"
+  - command: "uv tool run ruff format --quiet ."
+    when: "{{ not install_dependencies }}"
 
   # Initial commit
   - command: |
@@ -159,6 +165,24 @@ _tasks:
   # Install pre-commit hooks
   - command: "uv run pre-commit install"
     when: "{{ install_pre_commit_hooks | default(false) }}"
+
+  - command: |
+        printf "\033[0;32m✨ Project {{ project_name }} successfully generated! \033[0m\n\n"
+        echo "Next steps:"
+        {%- if not install_dependencies %}
+        echo "  🚀 Get started:"
+        printf "       1. \033[36muv sync\033[0m\n"
+        printf "       2. \033[36muv run start-app\033[0m\n"
+        {%- else %}
+        echo "  🚀 Get started:"
+        printf "       ▶  \033[36muv run start-app\033[0m\n"
+        {%- endif %}
+        {%- if add_docs %}
+        echo ""
+        echo "  📚 Documentation:"
+        printf "       Build:  \033[36muv run --group docs mkdocs build --clean\033[0m\n"
+        printf "       Serve:  \033[36muv run --group docs mkdocs serve\033[0m\n"
+        {%- endif %}
 
 # 3. Configuration
 _subdirectory: template
