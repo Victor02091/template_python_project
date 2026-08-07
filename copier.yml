@@ -129,7 +129,7 @@ install_pre_commit_hooks:
 # 2. Hooks
 _tasks:
   # Install dependencies
-  - command: "uv sync"
+  - command: "uv sync --quiet"
     when: "{{ install_dependencies }}"
   # Format and Lint Code
   - command: "uv run ruff check --fix --quiet --exit-zero ."
@@ -143,46 +143,8 @@ _tasks:
   - command: "uv tool run ruff format --quiet ."
     when: "{{ not install_dependencies }}"
 
-  # Initial commit
-  - command: |
-      # 1. Ensure a git repo exists (if not, create one)
-      if [ ! -d .git ]; then
-          echo "✨ Initializing new Git repository..."
-          git init
-      fi
-
-      # 2. Check if this is the first time the template is applied
-      # We do this by checking if the answers file is already tracked by git.
-      # If 'git ls-files' fails to find it in the index, it's a fresh install.
-      if ! git ls-files .copier-answers.yml --error-unmatch > /dev/null 2>&1; then
-          echo "🚀 First template application detected. Committing..."
-          git add .
-          git commit --no-verify -m "chore: initial commit from template"
-      else
-          echo "🔄 Template update detected. Skipping git commit."
-      fi
-
-  # Install pre-commit hooks
-  - command: "uv run pre-commit install"
-    when: "{{ install_pre_commit_hooks | default(false) }}"
-
-  - command: |
-        printf "\033[0;32m✨ Project {{ project_name }} successfully generated! \033[0m\n\n"
-        echo "Next steps:"
-        {%- if not install_dependencies %}
-        echo "  🚀 Get started:"
-        printf "       1. \033[36muv sync\033[0m\n"
-        printf "       2. \033[36muv run start-app\033[0m\n"
-        {%- else %}
-        echo "  🚀 Get started:"
-        printf "       ▶  \033[36muv run start-app\033[0m\n"
-        {%- endif %}
-        {%- if add_docs %}
-        echo ""
-        echo "  📚 Documentation:"
-        printf "       Build:  \033[36muv run --group docs mkdocs build --clean\033[0m\n"
-        printf "       Serve:  \033[36muv run --group docs mkdocs serve\033[0m\n"
-        {%- endif %}
+  # Final Setup (Git, Pre-commit, Message, Self-Cleanup)
+  - command: "uv run --quiet .setup.py"
 
 # 3. Configuration
 _subdirectory: template
