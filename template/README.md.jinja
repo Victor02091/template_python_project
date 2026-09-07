@@ -66,12 +66,12 @@ uv run pre-commit run --all-files
 ```
 
 {% endif -%}
-## 🚀 Start app
+## 🚀 Start main entrypoint
 
 Run main.py entrypoint with the command:
 
 ```bash
-uv run start-app
+uv run start-main
 ```
 
 ## 📂 Project Structure
@@ -88,7 +88,7 @@ uv run start-app
 │       │   └── logging.py                # Logging configuration
 │       ├── __init__.py
 │       ├── hello_world.py                # Example module
-│       └── main.py                       # Entrypoint used by `uv run start-app`
+│       └── main.py                       # Entrypoint used by `uv run start-main`
 ├── tests/                                # Pytest test suite
 │   ├── conftest.py
 │   └── test_main.py

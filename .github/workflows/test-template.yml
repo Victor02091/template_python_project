@@ -67,5 +67,5 @@ jobs:
       - name: Test Docker Run (CLI Execution)
         working-directory: generated-project
         run: |
-          # Run the container to ensure the CMD ["start-app"] executes without crashing
+          # Run the container to ensure the CMD ["start-main"] executes without crashing
           docker run --rm generated-app:test
