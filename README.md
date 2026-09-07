@@ -37,7 +37,7 @@ your-project/
 │       ├── core/            # Config, constants, and logging setup
 │       ├── __init__.py
 │       ├── hello_world.py   # Example module
-│       └── main.py          # Entrypoint (used by `uv run start-app`)
+│       └── main.py          # Entrypoint (used by `uv run start-main`)
 ├── tests/                   # Pytest test suite
 ├── .dockerignore            # Optional: generated when `add_docker=true`
 ├── .gitlab-ci.yml           # Optional: GitLab CI when `ci_provider=gitlab`

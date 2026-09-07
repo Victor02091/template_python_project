@@ -55,10 +55,10 @@ print("Next steps:")
 {% if not install_dependencies %}
 print("  🚀 Get started:")
 print("       1. \033[36muv sync\033[0m")
-print("       2. \033[36muv run start-app\033[0m")
+print("       2. \033[36muv run start-main\033[0m")
 {% else %}
 print("  🚀 Get started:")
-print("       ▶  \033[36muv run start-app\033[0m")
+print("       ▶  \033[36muv run start-main\033[0m")
 {% endif %}
 
 {% if add_docs %}
