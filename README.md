@@ -25,9 +25,31 @@ This template provides a batteries-included setup with modern tooling, strict li
 
 The template generates a clean, production-ready directory layout:
 
-<p align="left">
-  <img src="images/repo_structure.png" alt="Project Structure" width="200">
-</p>
+```text
+your-project/
+├── .github/                 # Optional: GitHub CI when `ci_provider=github`
+│   └── workflows/
+│       └── ci.yml
+├── docs/                    # Optional: generated when `add_docs=true`
+├── notebooks/               # Example notebook(s)
+├── src/
+│   └── your_package/        # Main Python package
+│       ├── core/            # Config, constants, and logging setup
+│       ├── __init__.py
+│       ├── hello_world.py   # Example module
+│       └── main.py          # Entrypoint (used by `uv run start-app`)
+├── tests/                   # Pytest test suite
+├── .dockerignore            # Optional: generated when `add_docker=true`
+├── .gitlab-ci.yml           # Optional: GitLab CI when `ci_provider=gitlab`
+├── .pre-commit-config.yaml  # Optional: generated when `add_pre_commit=true`
+├── .python-version          # Python version pin
+├── Dockerfile               # Optional: generated when `add_docker=true`
+├── README.md                # Project documentation
+├── bitbucket-pipelines.yml  # Optional: Bitbucket CI when `ci_provider=bitbucket`
+├── mkdocs.yaml              # Optional: generated when `add_docs=true`
+├── pyproject.toml           # Project metadata and dependencies
+└── uv.lock                  # Locked dependency graph
+```
 
 ## 🛠️ Requirements
 

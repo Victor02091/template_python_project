@@ -74,6 +74,52 @@ Run main.py entrypoint with the command:
 uv run start-app
 ```
 
+## 📂 Project Structure
+
+```text
+.
+├── notebooks/
+│   └── my_notebook.ipynb                  # Example notebook
+├── src/
+│   └── {{ project_slug }}/               # Main Python package
+│       ├── core/                         # App configuration and shared constants
+│       │   ├── config.py                 # Pydantic settings
+│       │   ├── constants.py              # Project constants
+│       │   └── logging.py                # Logging configuration
+│       ├── __init__.py
+│       ├── hello_world.py                # Example module
+│       └── main.py                       # Entrypoint used by `uv run start-app`
+├── tests/                                # Pytest test suite
+│   ├── conftest.py
+│   └── test_main.py
+├── .python-version                       # Python version pin
+├── README.md
+├── pyproject.toml                         # Metadata, dependencies, tool config
+└── uv.lock                                # Locked dependency graph
+```
+
+### Other configuration files
+
+{% if add_pre_commit -%}
+- `.pre-commit-config.yaml`: Pre-commit checks run before each commit.
+{% endif -%}
+{% if add_ci and ci_provider == 'github' -%}
+- `.github/workflows/ci.yml`: CI workflow for linting, type checking, and tests.
+{% elif add_ci and ci_provider == 'gitlab' -%}
+- `.gitlab-ci.yml`: CI pipeline for linting, type checking, and tests.
+{% elif add_ci and ci_provider == 'bitbucket' -%}
+- `bitbucket-pipelines.yml`: CI pipeline for linting, type checking, and tests.
+{% endif -%}
+{% if add_docker -%}
+- `Dockerfile`: Container build recipe.
+- `.dockerignore`: Excludes unnecessary files from Docker build context.
+{% endif -%}
+{% if add_docs -%}
+- `mkdocs.yaml`: Documentation site configuration.
+- `docs/index.md`: Documentation homepage.
+- `docs/gen_ref_pages.py`: Script to generate API reference pages.
+{% endif -%}
+
 ## 🧪 Tests
 
 Write your tests in the [tests](./tests) folder. Ensure all test files are named starting with `test_` (e.g., `test_main.py`).
