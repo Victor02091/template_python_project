@@ -4,21 +4,12 @@ A production-ready Python project template powered by **uv**.
 
 This template provides a batteries-included setup with modern tooling, strict linting, automatic formatting, and CI/CD integration, all configured to work out of the box.
 
-## ✨ Features
+Use this template : 
 
-* **Package Manager:** [uv](https://github.com/astral-sh/uv) (blazing fast replacement for pip/poetry).
-* **Linter & Formatter:** [Ruff](https://github.com/astral-sh/ruff) (configured for strict imports and formatting).
-* **Type Checking:** Standard Mypy or new beta of astral [ty](https://github.com/astral-sh/ty) (optional).
-* **Configuration:** [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/) for type-safe environment variable management with validation.
-* **Pre-commit:** Automatic hooks to ensure code quality before every commit (optional).
-* **Testing:** Pytest with configuration ready.
-* **CI/CD:** CI pipelines for github, gitlab or bitbucket (optional).
-* **Containerization:** Dockerfile included (optional).
-* **Editor:** VS Code settings (extensions, tests, and linting) pre-configured.
-* **Documention:** Modern Mkdocs documentation (optional):
+    copier copy --trust https://github.com/Victor02091/template_python_project .
 
-<p align="left">
-  <img src="images/mkdocs_ui.png" alt="Mkdocs" width="600">
+<p align="center">
+  <img src="images/copier_demo.png" alt="copier" width="600">
 </p>
 
 ## 📂 Project Structure
@@ -50,6 +41,23 @@ your-project/
 ├── pyproject.toml           # Project metadata and dependencies
 └── uv.lock                  # Locked dependency graph
 ```
+
+## ✨ Features
+
+* **Package Manager:** [uv](https://github.com/astral-sh/uv) (blazing fast replacement for pip/poetry).
+* **Linter & Formatter:** [Ruff](https://github.com/astral-sh/ruff) (configured for strict imports and formatting).
+* **Type Checking:** Standard Mypy or new beta of astral [ty](https://github.com/astral-sh/ty) (optional).
+* **Configuration:** [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/) for type-safe environment variable management with validation.
+* **Pre-commit:** Automatic hooks to ensure code quality before every commit (optional).
+* **Testing:** Pytest with configuration ready.
+* **CI/CD:** CI pipelines for github, gitlab or bitbucket (optional).
+* **Containerization:** Dockerfile included (optional).
+* **Editor:** VS Code settings (extensions, tests, and linting) pre-configured.
+* **Documention:** Modern Mkdocs documentation (optional):
+
+<p align="left">
+  <img src="images/mkdocs_ui.png" alt="Mkdocs" width="600">
+</p>
 
 ## 🛠️ Requirements
 
