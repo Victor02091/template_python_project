@@ -53,11 +53,11 @@ your-project/
 * **CI/CD:** CI pipelines for github, gitlab or bitbucket (optional).
 * **Containerization:** Dockerfile included (optional).
 * **Editor:** VS Code settings (extensions, tests, and linting) pre-configured.
-* **Documention:** Modern Mkdocs documentation (optional):
+* **Documention:** Modern Mkdocs documentation (optional).
 
-<p align="left">
-  <img src="images/mkdocs_ui.png" alt="Mkdocs" width="600">
-</p>
+## 📸 Mkdocs documentation UI Preview
+
+![Mkdocs documentation screenshot](images/mkdocs_ui.png)
 
 ## 🛠️ Requirements
 
